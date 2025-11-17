@@ -3,8 +3,8 @@ import dotenv
 from openai.types.responses import ResponseTextDeltaEvent
 import os
 
-from agents import Runner, SQLiteSession
-from nutrition_agent import nutrition_agent
+from agents import InputGuardrailTripwireTriggered, Runner, SQLiteSession
+from nutrition_agent import exa_search_mcp, nutrition_agent
 
 dotenv.load_dotenv()
 
@@ -12,6 +12,7 @@ dotenv.load_dotenv()
 async def on_chat_start():
     session = SQLiteSession ("conversation_history")
     cl.user_session.set("agent_session", session)
+    await exa_search_mcp.connect()
 
 
 @cl.on_message
